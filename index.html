@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOVE YOU</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #050505; /* Темный фон */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .text-overlay {
+            position: absolute;
+            z-index: 2;
+            color: #ff69b4;
+            font-size: 40px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4;
+            pointer-events: none;
+            animation: flicker 3s infinite alternate;
+        }
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; text-shadow: 0 0 15px #ff69b4, 0 0 30px #ff69b4; }
+        }
+    </style>
+</head>
+<body>
+    <div class="text-overlay">LOVE YOU</div>
+    <canvas id="heartCanvas"></canvas>
+    <script src="script.js"></script>
+</body>
+</html>
