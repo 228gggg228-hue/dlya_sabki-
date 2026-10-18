@@ -3,46 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOVE YOU</title>
+    <title>Письмо для тебя</title>
+    <!-- Подключаем красивый рукописный шрифт с Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
-            overflow: hidden;
-            background-color: #050505; /* Темный фон */
+            height: 100vh;
+            background-color: #1a1a1a; /* Темный фон */
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
         }
-        canvas {
-            display: block;
+
+        /* --- СТИЛИ ИЗ ВАШЕГО СКРИНШОТА (с небольшими адаптациями) --- */
+        #envelope {
+            position: relative;
+            width: 420px; 
+            height: 270px; 
+            /* top: 150px; - убрал, так как используем flexbox для центрирования */
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+            background-color: #d9534f;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        #envelope:hover {
+            transform: scale(1.02);
+        }
+
+        .letter {
             position: absolute;
+            /* Центрируем письмо внутри конверта */
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            border-radius: 6px;
+            height: 94%; 
+            width: 90%; 
+            background-color: #fcfcfc; /* Белая бумага */
+            font-family: "Dancing Script", cursive;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1; /* Прячем за передней частью конверта */
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Плавная анимация */
+            overflow: hidden;
+        }
+
+        .letter h1 {
+            color: #d9534f;
+            font-size: 48px;
+            margin: 0;
+            text-align: center;
+        }
+
+        .letter p {
+            color: #555;
+            font-size: 24px;
+            margin-top: 10px;
+        }
+
+        /* --- СОЗДАНИЕ ПЕРЕДНЕЙ СТВОРКИ КОНВЕРТА (чтобы письмо было внутри) --- */
+        .envelope-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             top: 0;
             left: 0;
-            z-index: 1;
-        }
-        .text-overlay {
-            position: absolute;
+            background-color: #c9302c; /* Чуть темнее для объема */
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+            /* Рисуем треугольник кармана конверта */
+            clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
             z-index: 2;
-            color: #ff69b4;
-            font-size: 40px;
-            font-weight: bold;
-            letter-spacing: 5px;
-            text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4;
-            pointer-events: none;
-            animation: flicker 3s infinite alternate;
+            transition: z-index 0.1s;
         }
-        @keyframes flicker {
-            0% { opacity: 1; }
-            50% { opacity: 0.8; }
-            100% { opacity: 1; text-shadow: 0 0 15px #ff69b4, 0 0 30px #ff69b4; }
+
+        /* Анимация открытия */
+        #envelope.open .letter {
+            transform: translate(-50%, -150px); /* Письмо вылетает вверх */
+            z-index: 3; /* Письмо поверх конверта */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Текст подсказки */
+        .hint {
+            position: absolute;
+            bottom: 50px;
+            color: #888;
+            font-size: 14px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
         }
     </style>
 </head>
 <body>
-    <div class="text-overlay">LOVE YOU</div>
-    <canvas id="heartCanvas"></canvas>
-    <script src="script.js"></script>
+
+    <div id="envelope" onclick="openEnvelope()">
+        <!-- Само письмо -->
+        <div class="letter">
+            <h1>LOVE YOU</h1>
+            <p>С наилучшими пожеланиями ❤️</p>
+        </div>
+        <!-- Передняя часть конверта (перекрывает письмо) -->
+        <div class="envelope-front"></div>
+    </div>
+
+    <div class="hint">Нажми на конверт, чтобы открыть</div>
+
+    <script>
+        function openEnvelope() {
+            const envelope = document.getElementById('envelope');
+            // Добавляем класс "open" для запуска CSS-анимации
+            envelope.classList.add('open');
+            
+            // Скрываем подсказку
+            document.querySelector('.hint').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
